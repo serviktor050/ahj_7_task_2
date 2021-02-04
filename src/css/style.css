@@ -40,11 +40,28 @@
     padding: 10px;
     flex-wrap: wrap;
     border-bottom: 1px solid;
-  }
+}
 
-  .ticket:last-child {
+.big-ticket {
+    width: 500px;
+    height: 150px;
+    display: flex;
+    padding: 10px;
+    flex-wrap: wrap;
+}
+
+.ticket:last-child {
     border-bottom: none;
-  }
+}
+
+.full-description {
+    width: 500px;
+    height: 50px;
+    display: flex;
+    padding: 10px;
+    flex-wrap: wrap;
+    border: 1px solid black;
+}
 
 .popup {
     width: 300px;
@@ -56,7 +73,7 @@
 
 .hidden {
     display: none;
-  }
+}
 
 .popup p {
     padding-left: 30px;
@@ -151,13 +168,17 @@
     text-align: center;
 }
 
+.form-error {
+    width: 250px;
+    height: 30px;
+    border: 1px black solid;
+    border-radius: 5px;
+    position: absolute;
+    background-color: white;
+    z-index: 2;
+    text-align: center;
+}
 
-/*
-.edit-ticket {
-    background-image: url('../img/edit.png');
+.edit-ticket, .remove-ticket, .status {
+    cursor: pointer;
 }
-  
-.remove-ticket {
-    background-image: url('../img/close.png');
-}
-  */

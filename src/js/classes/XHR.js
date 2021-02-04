@@ -4,8 +4,8 @@ export default class XHR {
   addTicket(name, description) {
     return new Promise((resolve) => {
       const params = new URLSearchParams();
-      params.append('small-description', name);
-      params.append('full-description', description);
+      params.append('name', name);
+      params.append('description', description);
 
       const xhr = new XMLHttpRequest();
       xhr.open('POST', `${server}/tickets`);
@@ -19,7 +19,7 @@ export default class XHR {
     });
   }
 
-  getTikets() {
+  getTickets() {
     return new Promise((resolve) => {
       const xhr = new XMLHttpRequest();
       xhr.open('GET', `${server}/tickets`);
@@ -38,8 +38,8 @@ export default class XHR {
     return new Promise((resolve) => {
       const params = new URLSearchParams();
       params.append('id', id);
-      params.append('small-description', name);
-      params.append('full-description', description);
+      params.append('name', name);
+      params.append('description', description);
 
       const xhr = new XMLHttpRequest();
       xhr.open('PUT', `${server}/tickets`);

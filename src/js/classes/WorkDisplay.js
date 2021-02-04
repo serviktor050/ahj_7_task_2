@@ -19,13 +19,13 @@ export default class WorkDisplay {
       ticket.dataset.id = item.id;
       ticket.innerHTML = `
             <div class="status">
-            <span class="change-status pointer" data-status="${item.status}"></span>
+            <span class="change-status" data-status="${item.status}"></span>
             </div>
             <div class="ticket-name">${item.name}</div>
             <div class="ticket-created">${ticketCreated}</div>
             <div class="edit-or-remove">
-              <span class="edit-ticket pointer"></span>
-              <span class="remove-ticket pointer"></span>
+              <span class="edit-ticket">&#9998;</span>
+              <span class="remove-ticket">&#10006;</span>
             </div>
             `;
       this.tableOfTickets.appendChild(ticket);

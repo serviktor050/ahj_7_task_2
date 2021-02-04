@@ -18,15 +18,14 @@ export default class Popovers {
           </div>
         `;
   }
-/*
+
   addErrorElement() {
     const error = document.createElement('div');
     error.id = 'form-error';
     error.className = 'form-error hidden';
-    error.textContent = 'Error';
     this.parentElement.appendChild(error);
   }
-*/
+
   saveTicket(callback) {
     this.sTicket = callback;
   }
@@ -35,7 +34,7 @@ export default class Popovers {
     this.elementPopup.id = 'popup';
     this.elementPopup.className = 'popup hidden';
     this.elementPopup.innerHTML = this.htmlElement;
-    //this.addErrorElement(this.elementPopup);
+    this.addErrorElement(this.elementPopup);
     this.parentElement.appendChild(this.elementPopup);
     this.constants();
     this.eventsPopup();
@@ -65,7 +64,7 @@ export default class Popovers {
       }
       if (this.inpFullDescr.value === '') {
         this.inpFullDescr.focus();
-        this.showError(this.inpFullDescr, 'Полное описание не заполнено!');
+        this.showError(this.inpFullDescr, 'Подробное описание не заполнено!');
         return;
       }
       this.selectPopup.classList.add('hidden');
@@ -102,7 +101,7 @@ export default class Popovers {
   showError(element, message) {
     this.elementError.textContent = message;
     this.elementError.classList.remove('hidden');
-    this.elementError.style.top = `${element.offsetTop + element.offsetHeight}px`;
-    this.elementError.style.left = `${element.offsetLeft + ((element.offsetWidth - this.elError.offsetWidth) / 2)}px`;
+    this.elementError.style.top = `${element.getBoundingClientRect().y + 25}px`;
+    this.elementError.style.left = `${element.getBoundingClientRect().x - 6}px`;
   }
 }

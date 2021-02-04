@@ -1,7 +1,6 @@
 import Removed from './Removed.js';
 import Popovers from './Popovers.js';
 import WorkDisplay from './WorkDisplay.js';
-import initData from '../initData.js';
 import XHR from './XHR.js';
 
 const workDisplay = new WorkDisplay();
@@ -11,22 +10,21 @@ const xhrFromClass = new XHR();
 
 export default class Work {
   constructor() {
-    this.ticketsList = document.querySelector('#tickets-list');
-    this.addTicket = document.querySelector('#add-ticket');
+    this.ticketsList = document.getElementById('tickets-list');
+    this.addTicket = document.getElementById('add-ticket');
     this.id = null;
     this.itemIndex = null;
   }
 
   async init() {
-    initData();
-    const arrayOfTickets = await xhrFromClass.getTikets();
+    const arrayOfTickets = await xhrFromClass.getTickets();
     workDisplay.redrawTickets(arrayOfTickets);
 
     popup.bindToDOM();
     popup.saveTicket(this.saveTicket.bind(this));
-    this.inpSmDescr = document.querySelector('#small-description');
-    this.inpFullDescr = document.querySelector('#full-description');
-    this.popupTitle = document.querySelector('#title-popup');
+    this.inpSmDescr = document.getElementById('small-description');
+    this.inpFullDescr = document.getElementById('full-description');
+    this.popupTitle = document.getElementById('title-popup');
     removed.init();
     this.eventsTickets();
   }
@@ -34,13 +32,17 @@ export default class Work {
   eventsTickets() {
     this.ticketsList.addEventListener('click', async (event) => {
       const eClass = event.target.classList;
-
-      console.log(eClass)
       this.id = event.target.closest('.ticket').dataset.id;
 
-      if (eClass.contains('change-status')) {
-        const ticketStatus = event.target.dataset.status;
-        const sendStatus = ticketStatus === 'true' ? 'false' : 'true';
+      if (eClass.contains('status')) {
+        const ticketStatus = event.target.querySelector('.change-status');
+        const sendStatus = ticketStatus.getAttribute('data-status') === 'true' ? 'false' : 'true';
+
+        if (sendStatus === 'true') {
+          ticketStatus.innerHTML = '&#10004;';
+        } else if (sendStatus === 'false') {
+          ticketStatus.innerHTML = '&ndash;';
+        }
         await xhrFromClass.changeStatus(this.id, sendStatus);
         const arrayOfTickets = await xhrFromClass.getTickets();
         workDisplay.redrawTickets(arrayOfTickets);
@@ -60,17 +62,17 @@ export default class Work {
       }
 
       if (eClass.contains('ticket-name')) {
-        const ticketFullDescr = event.target.parentNode.querySelector('.full-description');
+        const ticketFullDescr = event.target.closest('.ticket').querySelector('.full-description');
         if (!ticketFullDescr) {
           const newDescr = await xhrFromClass.getDescription(this.id);
-          const elementDescr = document.createElement('did');
+          const elementDescr = document.createElement('div');
           elementDescr.className = 'full-description';
-          elementDescr.innerHTML = `
-          <p>${newDescr}</p>
-          `;
+          elementDescr.innerHTML = `${newDescr}`;
           event.target.parentNode.appendChild(elementDescr);
+          event.target.closest('.ticket').classList.toggle('big-ticket');
         } else {
           ticketFullDescr.classList.toggle('hidden');
+          event.target.closest('.ticket').classList.toggle('big-ticket');
         }
       }
     });
@@ -84,7 +86,7 @@ export default class Work {
 
   async deleteTicket() {
     await xhrFromClass.removeTicket(this.id);
-    const arrayOfTickets = await xhrFromClass.getTikets();
+    const arrayOfTickets = await xhrFromClass.getTickets();
     workDisplay.redrawTickets(arrayOfTickets);
   }
 
@@ -92,9 +94,9 @@ export default class Work {
     if (this.id !== null) {
       await xhrFromClass.changeTickets(this.id, this.inpSmDescr.value, this.inpFullDescr.value);
     } else {
-      await xhrFromClass.addTicket(this.id, this.inpSmDescr.value, this.inpFullDescr.value);
+      await xhrFromClass.addTicket(this.inpSmDescr.value, this.inpFullDescr.value);
     }
-    const arrayOfTickets = await xhrFromClass.getTikets();
+    const arrayOfTickets = await xhrFromClass.getTickets();
     workDisplay.redrawTickets(arrayOfTickets);
   }
 }
