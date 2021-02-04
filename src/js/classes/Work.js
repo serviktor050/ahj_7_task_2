@@ -39,9 +39,9 @@ export default class Work {
         const sendStatus = ticketStatus.getAttribute('data-status') === 'true' ? 'false' : 'true';
 
         if (sendStatus === 'true') {
-          ticketStatus.innerHTML = '&#10004;';
+          ticketStatus.innerHTML = `&#10004;`;
         } else if (sendStatus === 'false') {
-          ticketStatus.innerHTML = '&ndash;';
+          ticketStatus.innerHTML = `&ndash;`;
         }
         await xhrFromClass.changeStatus(this.id, sendStatus);
         const arrayOfTickets = await xhrFromClass.getTickets();
