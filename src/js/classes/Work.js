@@ -14,6 +14,7 @@ export default class Work {
     this.addTicket = document.getElementById('add-ticket');
     this.id = null;
     this.itemIndex = null;
+    this.status = "false";
   }
 
   async init() {
@@ -38,10 +39,10 @@ export default class Work {
         const ticketStatus = event.target.querySelector('.change-status');
         const sendStatus = ticketStatus.getAttribute('data-status') === 'true' ? 'false' : 'true';
 
+        console.log(sendStatus)
         if (sendStatus === 'true') {
-          ticketStatus.innerHTML = '&#10004;';
-        } else if (sendStatus === 'false') {
-          ticketStatus.innerHTML = '&ndash;';
+          event.target.innerText = '✔'
+          console.log('✔')
         }
         await xhrFromClass.changeStatus(this.id, sendStatus);
         const arrayOfTickets = await xhrFromClass.getTickets();
